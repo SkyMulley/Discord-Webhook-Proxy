@@ -1,0 +1,27 @@
+{
+  "name": "discord-webhook-proxy",
+  "version": "1.0.0",
+  "description": "A webhook proxy that transforms incoming data to Discord webhook format",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonas Bernemann",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DevChuckNorris/discord-webhook-proxy"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "morgan": "^1.10.0"
+  },
+  "bin": {
+    "discord-webhook-proxy": "./bin/discord-webhook-proxy"
+  }
+}
