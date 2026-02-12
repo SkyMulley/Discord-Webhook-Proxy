@@ -38,6 +38,14 @@ function createEmbed(options) {
   };
 }
 
+function getBranch(event, body) {
+  if (event === "push") return body.ref?.replace("refs/heads/", "");
+  if (event === "workflow_run") return body.workflow_run?.head_branch;
+  if (event === "check_run") return body.check_run?.check_suite?.head_branch;
+  if (event === "pull_request") return body.pull_request?.base?.ref;
+  return null;
+}
+
 export default function (app) {
   app.post("/hooks/:id/:token/github", async (req, res) => {
     if (!req.body) {
@@ -47,6 +55,14 @@ export default function (app) {
     const { id, token } = req.params;
     const body = req.body;
     const event = req.headers["x-github-event"];
+    const filterBranch = req.query.branch;
+
+    if (filterBranch) {
+      const eventBranch = getBranch(event, body);
+      if (eventBranch && eventBranch !== filterBranch) {
+        return res.send("");
+      }
+    }
 
     // Push event
     if (event === "push" && body.commits?.length > 0) {
